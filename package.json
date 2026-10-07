@@ -1,0 +1,8 @@
+{
+  "name": "rdb-study-lab",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Study app for ER diagrams, the relational model and normalization",
+  "scripts": { "start": "npx serve ." }
+}

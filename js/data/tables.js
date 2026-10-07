@@ -1,0 +1,50 @@
+// Dependency lab tables: the three sample tables from the past practicums (Question 2).
+// logic: which data-suggested dependencies survive the logical test (2b).
+// redundant: the answer to "which attribute could be eliminated?" (2c).
+
+export const tables = [
+  { id: 'bus', name: 'Primary school students', src: 'Fall 2023',
+    cols: ['StudentID', 'LastName', 'FirstName', 'HomeRoom', 'HomeTeacher', 'BusID', 'BusDriverID'],
+    rows: [
+      ['1021', 'Giovani', 'Susan', '121', 'Razavi', '48', '12'],
+      ['1059', 'Smith', 'Robert', '121', 'Razavi', '45', '34'],
+      ['1078', 'Jones', 'Mary', '124', 'Polites', '45', '34'],
+      ['1075', 'Xi', 'Natalie', '121', 'Razavi', '73', '23'],
+      ['1115', 'Gupta', 'Mary', '127', 'CJ', '43', '23'],
+      ['1034', 'Kroenke', 'Charles', '133', 'Dragon', '21', '56'],
+      ['1055', 'Sosa', 'Mary', '134', 'Shanker', '46', '22'],
+      ['1062', 'Rider', 'Charles', '123', 'Kwak', '42', '11'],
+    ],
+    logic: 'Logical: StudentID → ALL (a surrogate key), HomeRoom → HomeTeacher, HomeTeacher → HomeRoom and BusID → BusDriverID. Not logical: LastName → ALL (two students with the same last name would break it) and every unique pair (two students with the same homeroom teacher on the same bus is entirely possible).',
+    redundant: 'None. No attribute is derived from the others, so removing any one loses real content. BusID → BusDriverID is a dependency, not a formula.' },
+  { id: 'menu', name: 'Menu items', src: 'Fall 2020',
+    cols: ['MenuItem_ID', 'Category', 'DateAdded', 'DiscountPrice', 'MenuPrice', 'DiscountPerc'],
+    rows: [
+      ['100', 'Appetizer', '09-30-2020', '3.59', '3.99', '0.1'],
+      ['101', 'Appetizer', '09-30-2020', '5.39', '5.99', '0.1'],
+      ['102', 'Appetizer', '08-23-2020', '3.99', '4.99', '0.2'],
+      ['103', 'Entree', '12-31-2018', '11.69', '12.99', '0.1'],
+      ['104', 'Dessert', '02-21-2018', '5.53', '6.50', '0.15'],
+      ['105', 'Entree', '04-11-2016', '7.89', '7.89', '0'],
+      ['106', 'Dessert', '08-22-2020', '1.00', '2.00', '0.5'],
+      ['107', 'Entree', '09-30-2020', '3.59', '3.99', '0.1'],
+    ],
+    formula: 'DiscountPrice always equals MenuPrice × (1 − DiscountPerc).',
+    logic: 'Logical: MenuItem_ID → ALL (a surrogate key) and the dependencies that follow from the pricing formula. Not logical: for example DateAdded → DiscountPerc. There is no reason the date an item joined the menu would set its discount; the pattern is coincidence.',
+    redundant: 'DiscountPrice, MenuPrice or DiscountPerc. Any one of the three can be calculated from the other two, so it is derived.' },
+  { id: 'movie', name: 'Movies', src: 'Summer 2021',
+    cols: ['Movie_ID', 'Title', 'Genre', 'YearReleased', 'TicketSales', 'AveTicketPrice', 'TicketsSold'],
+    rows: [
+      ['100', 'It', 'Drama', '1927', '410', '0.06', '6833'],
+      ['101', 'Bad Boys', 'Drama', '1983', '9190.8', '4.34', '2117.7'],
+      ['102', 'Red', 'Action', '2010', '90380', '8.76', '10317.4'],
+      ['103', 'It', 'Horror', '2017', '327480', '12.5', '26198.4'],
+      ['104', 'JFK', 'Drama', '1991', '70410', '6.22', '11319.9'],
+      ['105', 'Bad Boys', 'Comedy', '1995', '141407.0', '8.76', '16142.4'],
+      ['106', 'Pi', 'Horror', '1998', '3220', '4.78', '673.6'],
+      ['107', 'Ben', 'Horror', '1972', '770', '2.34', '329.1'],
+    ],
+    formula: 'AveTicketPrice × TicketsSold = TicketSales (ignore rounding).',
+    logic: 'Logical: only Movie_ID → ALL and Title, Genre → ALL. Not logical: for example YearReleased → ALL, which would need every movie released in a year to share a genre and every other value.',
+    redundant: 'Any one attribute of the ticket equation: keep any two of AveTicketPrice, TicketsSold and TicketSales. Most people would remove TicketsSold.' },
+];

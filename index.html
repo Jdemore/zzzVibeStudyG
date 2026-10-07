@@ -1,0 +1,75 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style></head><body>
+<title>Relational Database Study Lab</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Serif:wght@500;600&display=swap">
+<style>
+/* Layout: a fixed index rail (like a schema browser) beside one reading column; drills sit on bordered worksheets. */
+:root {
+  --bg: #f3f5f7; --surface: #ffffff; --tint: #e9eef2;
+  --fg: #14202b; --muted: #566473;
+  --line: #d3dae2; --line-strong: #7b8896;
+  --accent: #0a6b66; --accent-ink: #ffffff; --accent-soft: #dcefed;
+  --key: #9a5a08; --key-soft: #f6ead6;
+  --good: #1b7a43; --good-soft: #dff1e5;
+  --bad: #b42b21; --bad-soft: #f8e1de;
+  --sans: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --serif: "IBM Plex Serif", Georgia, "Times New Roman", serif;
+  --mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  --rail: 15rem;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #10161c; --surface: #18212a; --tint: #1e2933;
+    --fg: #e4eaf0; --muted: #9aa8b6;
+    --line: #2a3540; --line-strong: #74828f;
+    --accent: #58c9bf; --accent-ink: #06211f; --accent-soft: #14393a;
+    --key: #e2a658; --key-soft: #3a2c15;
+    --good: #62cc88; --good-soft: #173524;
+    --bad: #f2867b; --bad-soft: #40201d;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #10161c; --surface: #18212a; --tint: #1e2933;
+  --fg: #e4eaf0; --muted: #9aa8b6;
+  --line: #2a3540; --line-strong: #74828f;
+  --accent: #58c9bf; --accent-ink: #06211f; --accent-soft: #14393a;
+  --key: #e2a658; --key-soft: #3a2c15;
+  --good: #62cc88; --good-soft: #173524;
+  --bad: #f2867b; --bad-soft: #40201d;
+  color-scheme: dark;
+}
+body { background: var(--bg); color: var(--fg); font: 400 1rem/1.6 var(--sans); }
+</style>
+<link rel="stylesheet" href="css/app.css">
+
+<div class="shell">
+  <aside class="rail">
+    <a class="brand" href="#home" data-go="home">
+      <span class="brand-mark" aria-hidden="true">PK</span>
+      <span class="brand-name">Relational Database <br>Study Lab</span>
+    </a>
+    <nav id="nav" aria-label="Study modes">
+      <p class="nav-label">Overview</p>
+      <a href="#home" data-go="home">Progress</a>
+      <p class="nav-label">Read</p>
+      <a href="#guide" data-go="guide">Guide</a>
+      <a href="#glossary" data-go="glossary">Glossary</a>
+      <a href="#sheet" data-go="sheet">Cheat sheet</a>
+      <p class="nav-label">Practice</p>
+      <a href="#cards" data-go="cards">Flashcards</a>
+      <a href="#quiz" data-go="quiz">Quiz</a>
+      <a href="#crow" data-go="crow">Cardinality trainer</a>
+      <a href="#fd" data-go="fd">Dependency lab</a>
+      <a href="#norm" data-go="norm">Normalization workshop</a>
+    </nav>
+  </aside>
+  <main id="view" tabindex="-1">
+    <header class="page-head">
+      <p class="eyebrow">Loading</p>
+      <h1>Relational Database Study Lab</h1>
+      <p class="lead">A study guide for ER diagrams, the relational model and normalization, with flashcards, quizzes and practicum drills. If this message stays, the page scripts did not load.</p>
+    </header>
+  </main>
+</div>
+<script type="module" src="js/app.js"></script>
+</body></html>
