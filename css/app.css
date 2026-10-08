@@ -97,6 +97,10 @@ table.data td, table.data th { min-width: 0; padding: 0.35rem 0.6rem; white-spac
 table.data tr.clash td { background: var(--bad-soft); }
 table.data .lhs { box-shadow: inset 0 -2px 0 var(--accent); }
 table.data .rhs { box-shadow: inset 0 -2px 0 var(--key); }
+table.data th button { border: 0; padding: 0; background: none; cursor: pointer; font: inherit; font-weight: 600; }
+table.data th button::after { content: "\2195"; margin-left: 0.3em; color: var(--muted); }
+table.data th[aria-sort="ascending"] button::after { content: "\2191"; color: var(--accent); }
+table.data th[aria-sort="descending"] button::after { content: "\2193"; color: var(--accent); }
 
 /* Home */
 .modes { display: grid; gap: 0; border-top: 1px solid var(--line); }

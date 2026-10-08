@@ -35,13 +35,30 @@ export function mount(root) {
   let lhs = [], rhs = -1;                 // explore selection
   let ticks = new Set(), pairTicks = new Set(), graded = null;
   let reveal = false;
+  let sort = { col: -1, dir: 1 };        // data table order: col -1 is the row number
 
-  const pickTable = id => { table = tables.find(t => t.id === id); lhs = []; rhs = -1; ticks = new Set(); pairTicks = new Set(); graded = null; reveal = false; };
+  const pickTable = id => { table = tables.find(t => t.id === id); lhs = []; rhs = -1; ticks = new Set(); pairTicks = new Set(); graded = null; reveal = false; sort = { col: -1, dir: 1 }; };
+
+  // Row indexes in display order. Row numbers and clash marks keep using the original index.
+  function order() {
+    const idx = table.rows.map((_, r) => r);
+    if (sort.col < 0) return sort.dir < 0 ? idx.reverse() : idx;
+    const num = v => (v.trim() !== '' && !isNaN(v) ? Number(v) : null);
+    return idx.sort((a, b) => {
+      const va = table.rows[a][sort.col], vb = table.rows[b][sort.col], na = num(va), nb = num(vb);
+      const cmp = na !== null && nb !== null ? na - nb : va.localeCompare(vb, undefined, { sensitivity: 'base' });
+      return (cmp || a - b) * sort.dir;
+    });
+  }
 
   function dataTable(clash = []) {
+    const head = (label, i, cls) => {
+      const on = sort.col === i, aria = on ? (sort.dir > 0 ? 'ascending' : 'descending') : 'none';
+      return `<th class="${cls}" aria-sort="${aria}"><button data-act="sort" data-i="${i}" title="Sort by ${esc(label)}">${esc(label)}</button></th>`;
+    };
     return `<div class="scroll"><table class="data">
-      <thead><tr><th>#</th>${table.cols.map((c, i) => `<th class="${lhs.includes(i) ? 'lhs' : i === rhs ? 'rhs' : ''}">${esc(c)}</th>`).join('')}</tr></thead>
-      <tbody>${table.rows.map((row, r) => `<tr class="${clash.includes(r) ? 'clash' : ''}"><td>${r + 1}</td>${row.map(v => `<td>${esc(v)}</td>`).join('')}</tr>`).join('')}</tbody>
+      <thead><tr>${head('#', -1, '')}${table.cols.map((c, i) => head(c, i, lhs.includes(i) ? 'lhs' : i === rhs ? 'rhs' : '')).join('')}</tr></thead>
+      <tbody>${order().map(r => `<tr class="${clash.includes(r) ? 'clash' : ''}"><td>${r + 1}</td>${table.rows[r].map(v => `<td>${esc(v)}</td>`).join('')}</tr>`).join('')}</tbody>
     </table></div>`;
   }
 
@@ -140,6 +157,7 @@ export function mount(root) {
   const off = onAct(root, {
     table: el => { pickTable(el.dataset.id); draw(); },
     mode: el => { mode = el.dataset.id; draw(); },
+    sort: el => { const i = Number(el.dataset.i); sort = { col: i, dir: sort.col === i ? -sort.dir : 1 }; draw(); },
     lhs: el => {
       const i = Number(el.dataset.i);
       lhs = lhs.includes(i) ? lhs.filter(v => v !== i) : [...lhs, i].slice(-2);
